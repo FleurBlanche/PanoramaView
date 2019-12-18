@@ -11,6 +11,7 @@ public:
     bool stopBit;
     bool exitDecode = false;
     bool takePic;
+    bool isExit = false;
     showThread();
     void run(); //声明继承于QThread虚函数 run()
     void stopBroad();

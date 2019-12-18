@@ -70,12 +70,21 @@ void showThread::run()
     avformat_network_init();
     pFormatCtx = avformat_alloc_context();
 
-    string filepathO = "rtmp://" + socketHostIpAddr.toStdString();
+    //const char* filepath= socketHostIpAddr.toLocal8Bit().toStdString().c_str();
 
-    const char* filepath= (filepathO + ":1935/live/live").c_str();
+    const char* filepath= "rtsp://localhost/1";
+
+//    if(socketHostIpAddr.size() <= 5){
+//        //自动退出
+//        isExit = true;
+//        return;
+//    }
+
+    //string filepathO = "rtmp://" + socketHostIpAddr.toStdString();
+    //const char* filepath= (filepathO + ":1935/live/live").c_str();
     //rtmp://192.168.2.105:1935/testLive/livestream
     //rtsp://192.168.1.123:8554/1
-    cout << filepath << endl;
+    //cout << filepath << endl;
 
     AVDictionary* opts = NULL;
     //av_dict_set(&opts, "timeout", "10000000", 0); // 设置timeout，为微秒。一共5秒
@@ -93,8 +102,10 @@ void showThread::run()
             avformat_close_input(&pFormatCtx);
             avformat_free_context(pFormatCtx);
             pFormatCtx = NULL;
-            sleep(1);
-            continue;
+            //sleep(1);
+            isExit = true;
+            cout << "stream thread exit." << endl;
+            return;
         }
 
         //cout << "hey baby" << endl;
@@ -195,5 +206,6 @@ void showThread::run()
         }
 
     }
-    cout << "broadexit" << endl;
+    cout << "stream thread exit." << endl;
+    isExit = true;
 }
