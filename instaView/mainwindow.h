@@ -37,11 +37,22 @@ private:
     QMenuBar *menuBar;
     QStatusBar *statusBar;
     QLabel *imageLabel;
+    QLabel *img1Label;
+    QLabel *img2Label;
+    QLabel *img3Label;
+    QLabel *img4Label;
+    QLabel *img5Label;
+
+    QWidget *widget;
 
     QTextEdit *fpsText;
 
-    int timeOut = 1000;
+    int timeOut = 5000;
     int frameCount = 0;
+
+    void textureGenerate(QImage image);
+
+    void keyPressEvent(QKeyEvent *event) override;
 
 private slots:
     void showStream(QImage image);

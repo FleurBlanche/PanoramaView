@@ -72,24 +72,17 @@ void showThread::run()
 
     //const char* filepath= socketHostIpAddr.toLocal8Bit().toStdString().c_str();
 
-    const char* filepath= "rtsp://localhost/1";
+    //const char* filepath= "rtsp://localhost/1";
 
-//    if(socketHostIpAddr.size() <= 5){
-//        //自动退出
-//        isExit = true;
-//        return;
-//    }
+    const char* filepath= "rtmp://192.168.77.1/live/insta360";
 
-    //string filepathO = "rtmp://" + socketHostIpAddr.toStdString();
-    //const char* filepath= (filepathO + ":1935/live/live").c_str();
-    //rtmp://192.168.2.105:1935/testLive/livestream
-    //rtsp://192.168.1.123:8554/1
-    //cout << filepath << endl;
+//    string filepathO = "rtmp://" + socketHostIpAddr.toStdString();
+//    const char* filepath= (filepathO + "/live/insta360").c_str();
 
-    AVDictionary* opts = NULL;
-    //av_dict_set(&opts, "timeout", "10000000", 0); // 设置timeout，为微秒。一共5秒
+//    cout << "stream path: " << filepath << endl;
+
+    AVDictionary* opts = nullptr;
     av_dict_set(&opts, "buffer_size", "102400", 0);
-    //av_dict_set(&opts,"framerate","5",0);
 
     while(stopBit){
         exitDecode = false;
@@ -177,10 +170,12 @@ void showThread::run()
                     if(img_convert_ctx_rgb != NULL)
                     {
                         //转码为rgb32
-                        sws_scale(img_convert_ctx_rgb,pFrame->data,pFrame->linesize,0,pCodecCtx->height,pFrameRGB->data,pFrameRGB->linesize);
-                        //构造QImage，用于主页面显示
-                        QImage image((uchar *)pFrameRGB->data[0],pCodecCtx->width, pCodecCtx->height,QImage::Format_ARGB32);
-                        emit sendImage(image);
+                        if(pCodecCtx->height > 0){
+                            sws_scale(img_convert_ctx_rgb,pFrame->data,pFrame->linesize,0,pCodecCtx->height,pFrameRGB->data,pFrameRGB->linesize);
+                            //构造QImage，用于主页面显示
+                            QImage image((uchar *)pFrameRGB->data[0],pCodecCtx->width, pCodecCtx->height,QImage::Format_ARGB32);
+                            emit sendImage(image);
+                        }
                     }
                 }
             }

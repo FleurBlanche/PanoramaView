@@ -16,11 +16,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 INCLUDEPATH += $$PWD/ffmpeg/include \
-                $$PWD/glu/include
+                $$PWD/glu/include \
+                $$PWD/opencv/include
 
 SOURCES += \
+    fishEye.cpp \
+    helper.cpp \
     main.cpp \
     mainwindow.cpp \
+    matAndQImage.cpp \
     myopenglwidget.cpp \
     showthread.cpp
 
@@ -41,7 +45,8 @@ LIBS += $$PWD/ffmpeg/lib/avcodec.lib \
         $$PWD/ffmpeg/lib/swresample.lib \
         $$PWD/ffmpeg/lib/swscale.lib \
         $$PWD/ffmpeg/lib/SDL.lib \
-        $$PWD/glu/lib/freeglut.lib
+        $$PWD/glu/lib/freeglut.lib \
+        $$PWD/opencv/lib/opencv_world411.lib \
 
 
 # Default rules for deployment.
